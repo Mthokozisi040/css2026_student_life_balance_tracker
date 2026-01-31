@@ -7,22 +7,33 @@ Created on Sat Jan 31 11:18:01 2026
 
 import streamlit as st
 from datetime import datetime
+import pandas as pd
 
 from logic import calculate_balance_score, mental_state, advice_generator
 from storage import save_data, load_user_data
-from navigation import sidebar_navigation   # 👈 NEW
+from navigation import sidebar_navigation
 
 st.set_page_config(page_title="Student Life Balance Tracker", layout="centered")
 
+# =========================
 # Navigation
+# =========================
 page = sidebar_navigation()
 
-# Session state
+# =========================
+# Session State
+# =========================
 if "student_name" not in st.session_state:
     st.session_state.student_name = ""
 
-if "latest_data" not in st.session_state:
-    st.session_state.latest_data = None
+# =========================
+# Helper: get latest record
+# =========================
+def get_latest_user_record(name):
+    df = load_user_data(name)
+    if df is None or df.empty:
+        return None
+    return df.iloc[-1]   # last entry
 
 # =========================
 # HOME PAGE
@@ -47,7 +58,6 @@ if page == "🏠 Home":
         else:
             score = calculate_balance_score(study, sleep, social, screen, stress)
             state = mental_state(score)
-            tips = advice_generator(study, sleep, social, screen, stress)
 
             data = {
                 "Date": datetime.now().strftime("%Y-%m-%d %H:%M"),
@@ -63,11 +73,11 @@ if page == "🏠 Home":
 
             save_data(data)
 
+            # save user
             st.session_state.student_name = student_name
-            st.session_state.latest_data = data
 
             st.success("✅ Data saved successfully!")
-            st.info("Go to Dashboard to view your results 📊")
+            st.info("Navigate to Dashboard, History or Insights using the sidebar")
 
 # =========================
 # DASHBOARD PAGE
@@ -75,24 +85,29 @@ if page == "🏠 Home":
 elif page == "📊 Dashboard":
     st.title("📊 Personal Dashboard")
 
-    if st.session_state.latest_data is None:
-        st.warning("No data yet. Please enter data on the Home page.")
+    name = st.session_state.student_name
+
+    if name == "":
+        st.warning("Enter your name on the Home page first.")
     else:
-        data = st.session_state.latest_data
+        latest = get_latest_user_record(name)
 
-        st.metric("🧠 Balance Score", f"{data['Balance Score']}/100")
-        st.write(f"**Mental Wellness Status:** {data['Mental State']}")
+        if latest is None:
+            st.info("No data yet. Add data from Home page.")
+        else:
+            st.metric("🧠 Balance Score", f"{latest['Balance Score']}/100")
+            st.write(f"**Mental Wellness Status:** {latest['Mental State']}")
 
-        st.subheader("💡 Advice")
-        tips = advice_generator(
-            data["Study Hours"],
-            data["Sleep Hours"],
-            data["Social Hours"],
-            data["Screen Hours"],
-            data["Stress Level"]
-        )
-        for tip in tips:
-            st.write("- " + tip)
+            st.subheader("💡 Advice")
+            tips = advice_generator(
+                latest["Study Hours"],
+                latest["Sleep Hours"],
+                latest["Social Hours"],
+                latest["Screen Hours"],
+                latest["Stress Level"]
+            )
+            for tip in tips:
+                st.write("- " + tip)
 
 # =========================
 # HISTORY PAGE
@@ -154,6 +169,3 @@ elif page == "🧠 Insights":
                 st.write("✅ Strong life balance pattern detected.")
 
             st.success("🧠 Insights generated from your data")
-
-
-
