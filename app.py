@@ -7,25 +7,17 @@ Created on Sat Jan 31 11:18:01 2026
 
 import streamlit as st
 from datetime import datetime
-import pandas as pd
 
 from logic import calculate_balance_score, mental_state, advice_generator
 from storage import save_data, load_user_data
+from navigation import sidebar_navigation   # 👈 NEW
 
 st.set_page_config(page_title="Student Life Balance Tracker", layout="centered")
 
-# =========================
-# Sidebar Navigation
-# =========================
-st.sidebar.title("🎓 Life Balance Tracker")
-page = st.sidebar.radio("Navigation", [
-    "🏠 Home",
-    "📊 Dashboard",
-    "📂 History",
-    "🧠 Insights"
-])
+# Navigation
+page = sidebar_navigation()
 
-# Shared session state
+# Session state
 if "student_name" not in st.session_state:
     st.session_state.student_name = ""
 
@@ -71,12 +63,11 @@ if page == "🏠 Home":
 
             save_data(data)
 
-            # Save in session
             st.session_state.student_name = student_name
             st.session_state.latest_data = data
 
             st.success("✅ Data saved successfully!")
-            st.info("Go to the Dashboard to view your results 📊")
+            st.info("Go to Dashboard to view your results 📊")
 
 # =========================
 # DASHBOARD PAGE
@@ -146,15 +137,15 @@ elif page == "🧠 Insights":
             avg_stress = df_user["Stress Level"].mean()
             avg_screen = df_user["Screen Hours"].mean()
 
-            st.metric("📊 Average Balance Score", f"{avg_score:.1f}")
-            st.metric("😴 Avg Sleep Hours", f"{avg_sleep:.1f}")
-            st.metric("😖 Avg Stress Level", f"{avg_stress:.1f}")
+            st.metric("📊 Avg Balance Score", f"{avg_score:.1f}")
+            st.metric("😴 Avg Sleep", f"{avg_sleep:.1f}")
+            st.metric("😖 Avg Stress", f"{avg_stress:.1f}")
             st.metric("📱 Avg Screen Time", f"{avg_screen:.1f}")
 
             st.subheader("🔍 Behavioral Insights")
 
             if avg_sleep < 6:
-                st.write("⚠️ Chronic sleep deprivation detected.")
+                st.write("⚠️ Chronic sleep deprivation pattern detected.")
             if avg_stress > 6:
                 st.write("⚠️ High long-term stress pattern detected.")
             if avg_screen > 7:
@@ -162,5 +153,7 @@ elif page == "🧠 Insights":
             if avg_score > 75:
                 st.write("✅ Strong life balance pattern detected.")
 
-            st.success("🧠 Insights generated from your behavioral data")
+            st.success("🧠 Insights generated from your data")
+
+
 
