@@ -1,2 +1,27 @@
 Date,Student,Study Hours,Sleep Hours,Social Hours,Screen Hours,Stress Level,Balance Score,Mental State
 2026-01-31 11:23,Mthokozisi Mbuyane,2,6,1,6,5,70,🟡 Moderate Balance
+
+2026-01-20 08:30,Thabo Mokoena,4,7,2,5,4,78,🟢 Healthy Balance
+2026-01-21 09:10,Thabo Mokoena,6,6,1,6,6,65,🟡 Moderate Stress
+2026-01-22 10:00,Thabo Mokoena,3,8,3,4,3,85,🟢 Very Healthy
+2026-01-23 09:45,Thabo Mokoena,5,5,1,7,7,55,🟠 High Stress
+2026-01-24 11:20,Thabo Mokoena,2,9,4,3,2,90,🟢 Excellent Balance
+
+2026-01-20 08:40,Naledi Dlamini,5,6,2,6,5,70,🟡 Moderate Balance
+2026-01-21 09:15,Naledi Dlamini,6,5,1,7,6,60,🟡 Moderate Stress
+2026-01-22 10:10,Naledi Dlamini,4,7,3,4,4,80,🟢 Healthy Balance
+2026-01-23 10:30,Naledi Dlamini,3,6,2,6,7,58,🟠 High Stress
+2026-01-24 11:00,Naledi Dlamini,2,8,4,3,3,88,🟢 Very Healthy
+
+2026-01-20 07:50,Sipho Nkosi,7,5,1,8,8,48,🔴 Burnout Risk
+2026-01-21 09:00,Sipho Nkosi,6,5,1,7,7,55,🟠 High Stress
+2026-01-22 10:15,Sipho Nkosi,5,6,2,6,6,62,🟡 Moderate Stress
+2026-01-23 10:40,Sipho Nkosi,4,7,2,5,5,72,🟢 Healthy Balance
+2026-01-24 11:10,Sipho Nkosi,3,8,3,4,4,82,🟢 Very Healthy
+
+2026-01-20 08:20,Amina Hassan,4,7,3,4,3,85,🟢 Very Healthy
+2026-01-21 09:05,Amina Hassan,5,6,2,5,4,78,🟢 Healthy Balance
+2026-01-22 10:25,Amina Hassan,6,5,1,6,5,68,🟡 Moderate Balance
+2026-01-23 10:50,Amina Hassan,3,7,3,4,3,88,🟢 Very Healthy
+2026-01-24 11:30,Amina Hassan,2,8,4,3,2,92,🟢 Excellent Balance
+
