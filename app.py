@@ -117,25 +117,39 @@ elif page == "📂 History":
 
     name = st.session_state.student_name
 
-    st.subheader("Balance Score Trend")
-
-    if len(df) > 1:
-        fig, ax = plt.subplots()
-        ax.plot(df["Date"], df["Balance Score"], marker="o")
-    
-        # Axis labels
-        ax.set_xlabel("Date")
-        ax.set_ylabel("Balance Score")
-    
-        # Title
-        ax.set_title("Student Life Balance Trend Over Time")
-    
-        # Rotate dates for readability
-        plt.xticks(rotation=45)
-    
-        st.pyplot(fig)
+    if name == "":
+        st.warning("Enter your name on the Home page first.")
     else:
-        st.info("Not enough data to show trend yet.")
+        df = load_user_data(name)
+
+        if df is None or df.empty:
+            st.info("No data yet. Add data from Home page.")
+        else:
+            st.subheader("Balance Score Trend")
+
+            if len(df) > 1:
+                import matplotlib.pyplot as plt
+
+                fig, ax = plt.subplots()
+                ax.plot(df["Date"], df["Balance Score"], marker="o")
+
+                # Axis labels
+                ax.set_xlabel("Date")
+                ax.set_ylabel("Balance Score")
+
+                # Title
+                ax.set_title("Student Life Balance Trend Over Time")
+
+                # Rotate dates for readability
+                plt.xticks(rotation=45)
+
+                st.pyplot(fig)
+            else:
+                st.info("Not enough data to show trend yet.")
+
+            # Show raw history table
+            st.subheader("📄 History Records")
+            st.dataframe(df)
 
 
 # =========================
@@ -176,4 +190,5 @@ elif page == "🧠 Insights":
                 st.write("✅ Strong life balance pattern detected.")
 
             st.success("🧠 Insights generated from your data")
+
 
